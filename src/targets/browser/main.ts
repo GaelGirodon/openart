@@ -1,14 +1,14 @@
 import { Processor } from "../../lib/processor/Processor";
 
 /**
- * Options for the browser processor.
+ * Options for the browser processor
  */
 interface BrowserProcessorOptions {
   selector?: string
 }
 
 /**
- * Diagram processor for the browser.
+ * Diagram processor for the browser
  */
 class BrowserProcessor {
 
@@ -17,10 +17,17 @@ class BrowserProcessor {
    * @param opts OAProcessor options
    */
   initialize(opts: BrowserProcessorOptions = {}) {
-    const selector = opts.selector || ".openart";
+    const selector = opts.selector || ".openart:not([data-processed])";
     const processor = new Processor();
-    document.querySelectorAll(selector).forEach((element) => {
-      element.innerHTML = processor.render(element.innerHTML);
+    document.querySelectorAll(selector).forEach((el) => {
+      const diagram = processor.render(el.innerHTML);
+      if (el.tagName === "CODE" && el.parentElement?.tagName === "PRE")
+        el = el.parentElement;
+      const div = document.createElement("div");
+      div.className = "openart";
+      div.setAttribute("data-processed", "true");
+      div.innerHTML = diagram;
+      el.replaceWith(div);
     });
   }
 

@@ -1,5 +1,5 @@
 /**
- * A diagram element definition.
+ * A diagram element definition
  */
 export interface ElementDefinition {
 

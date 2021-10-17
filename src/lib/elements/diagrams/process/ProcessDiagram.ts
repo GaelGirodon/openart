@@ -1,8 +1,10 @@
 import { ElementDefinition } from "../../../parser/ElementDefinition";
 import { SVGElement } from "../../../processor/svg/SVGElement";
+import { Builder } from "../../Builder";
 import { Container } from "../../Container";
 import { ContainerLayout } from "../../layouts/ContainerLayout";
-import { StackLayout, StackLayoutOrientation } from "../../layouts/StackLayout";
+import { StackLayout } from "../../layouts/StackLayout";
+import { Arrow } from "../../shapes/Arrow";
 import { Rectangle } from "../../shapes/Rectangle";
 import { Text } from "../../shapes/Text";
 
@@ -15,29 +17,35 @@ export class ProcessDiagram extends Container {
 
   /**
    * Create a process.
-   * @param definition Process definition.
+   * @param def Process definition
+   * @param builder Diagram element builder
    */
-  constructor(definition: ElementDefinition) {
-    super(definition);
-    if (!definition.children) {
+  constructor(def: ElementDefinition, builder: Builder) {
+    super(Object.assign({}, def, { children: [] }), builder);
+    if (!def.children?.length) {
       throw new Error("No steps defined");
     }
-    const stack = new StackLayout({
-      orientation: definition.orientation || StackLayoutOrientation.Horizontal,
-      gap: 8
-    });
-    for (const child of definition.children!) {
-      stack.add(new ContainerLayout({ width: 150, height: 100 })
-        .add(new Rectangle({ width: 150, height: 100 }))
-        .add(new Text({ text: child.name, width: 150, height: 100, x: 75, y: 50 }))
+    const orientation = def.orientation || "horizontal";
+    const h = orientation === "horizontal";
+    const stack = new StackLayout({ orientation, gap: 12 }, builder);
+    for (const child of def.children) {
+      stack.add(new ContainerLayout({ width: 150, height: 80 }, builder)
+        .add(new Rectangle({ width: 150, height: 80 }))
+        .add(new Text({ text: child.name, width: 150, height: 80, x: 75, y: 40 }))
       );
+      if (def.children.indexOf(child) !== def.children.length - 1) {
+        stack.add(new ContainerLayout({ width: h ? 24 : 80, height: h ? 80 : 24 }, builder)
+          .add(new Arrow({ width: 24, height: 24, x: h ? 0 : 63, y: h ? 28 : 0, angle: h ? 0 : 90 })));
+      }
     }
     this.add(stack);
   }
 
   /** @inheritdoc */
-  toSVGElement(): SVGElement | string {
-    return this.children[0].toSVGElement();
+  toSVG(): SVGElement {
+    this.children[0].x = this.x;
+    this.children[0].y = this.y;
+    return this.children[0].toSVG();
   }
 
 }

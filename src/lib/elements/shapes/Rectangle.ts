@@ -6,15 +6,16 @@ import { Element } from "../Element";
  */
 export class Rectangle extends Element {
 
-  toSVGElement(): SVGElement {
-    const element = new SVGElement("rect")
-      .attr("x", this.x)
-      .attr("y", this.y)
-      .attr("width", this.width + "px")
-      .attr("height", this.height + "px")
+  /** @inheritdoc */
+  toSVG(): SVGElement {
+    const element = new SVGElement(this, "rect")
+      .attr("x", (this.x || 0) + 1)
+      .attr("y", (this.y || 0) + 1)
+      .attr("width", (this.width || 0) - 2)
+      .attr("height", (this.height || 0) - 2)
       .attr("fill", "#fff")
       .attr("stroke", "#000")
-      .attr("stroke-width", 1);
+      .attr("stroke-width", 2);
     return element;
   }
 

@@ -61,9 +61,9 @@ describe("Parser", function () {
     const expected = {
       name: "root",
       children: [
-        { name: "process-1", a: "1", children: [] },
-        { name: "process-2", b: "2", children: [] },
-        { name: "process-3", c: "3", children: [] }
+        { name: "process-1", a: 1, children: [] },
+        { name: "process-2", b: 2, children: [] },
+        { name: "process-3", c: 3, children: [] }
       ]
     };
     assert.deepEqual(parser.parse(input), expected);

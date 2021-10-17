@@ -12,54 +12,54 @@ export abstract class Element {
 
   /**
    * Create a diagram element.
-   * @param definition Diagram element definition
+   * @param def Diagram element definition
    */
-  constructor(protected definition: ElementDefinition = {}) { }
+  constructor(protected def: ElementDefinition = {}) { }
 
   /** Get element width in pixels */
   public get width(): number {
-    return this.definition.width || 0;
+    return this.def.width || 0;
   }
 
   /** Set element width in pixels */
   public set width(value: number) {
-    this.definition.width = value;
+    this.def.width = value;
   }
 
-  /** Get element height in pixels */
+  /** Get the element height in pixels */
   public get height(): number {
-    return this.definition.height || 0;
+    return this.def.height || 0;
   }
 
-  /** Set element height in pixels */
+  /** Set the element height in pixels */
   public set height(value: number) {
-    this.definition.height = value;
+    this.def.height = value;
   }
 
-  /** Get element horizontal position */
+  /** Get the element horizontal position */
   public get x(): number {
-    return this.definition.x || 0;
+    return this.def.x || 0;
   }
 
-  /** Set element horizontal position */
+  /** Set the element horizontal position */
   public set x(value: number) {
-    this.definition.x = value;
+    this.def.x = value;
   }
 
-  /** Get element vertical position */
+  /** Get the element vertical position */
   public get y(): number {
-    return this.definition.y || 0;
+    return this.def.y || 0;
   }
 
-  /** Set element vertical position */
+  /** Set the element vertical position */
   public set y(value: number) {
-    this.definition.y = value;
+    this.def.y = value;
   }
 
   /**
    * Render this element into an SVG element.
    * @returns Rendered SVG element
    */
-  abstract toSVGElement(): SVGElement | string;
+  abstract toSVG(): SVGElement;
 
 }

@@ -3,18 +3,29 @@ import typescript from "@rollup/plugin-typescript";
 import { terser } from "rollup-plugin-terser";
 
 export default [
-  // Node.js
+  // CommonJS
   {
     input: "src/targets/node/main.ts",
     output: {
-      file: "dist/index.js",
+      file: "dist/openart.common.js",
       format: "cjs"
     },
     plugins: [
       typescript({ module: "esnext", include: ["src/targets/node/*.ts", "src/lib/**/*.ts"] })
     ]
   },
-  // Browser
+  // ES Module
+  {
+    input: "src/targets/node/main.ts",
+    output: {
+      file: "dist/openart.esm.js",
+      format: "es"
+    },
+    plugins: [
+      typescript({ module: "esnext", include: ["src/targets/node/*.ts", "src/lib/**/*.ts"] })
+    ]
+  },
+  // IIFE
   {
     input: "src/targets/browser/main.ts",
     output: {

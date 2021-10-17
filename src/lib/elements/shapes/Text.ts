@@ -9,18 +9,22 @@ export class Text extends Element {
 
   /**
    * Create a text block.
-   * @param definition Text definition
+   * @param def Text definition
    */
-  constructor(protected definition: TextDefinition) {
-    super(definition);
+  constructor(protected def: TextDefinition) {
+    super(def);
   }
 
-  toSVGElement(): SVGElement {
-    return new SVGElement("text")
+  /** @inheritdoc */
+  toSVG(): SVGElement {
+    const el = new SVGElement(this, "text")
       .attr("x", this.x)
-      .attr("y", this.y)
+      .attr("y", this.y + 6)
       .attr("text-anchor", "middle")
-      .add(this.definition.text || "");
+      .attr("font-family", this.def.fontFamily || "Arial, sans-serif")
+      .add(this.def.text || "");
+    if (this.def.fontSize) el.attr("font-size", this.def.fontSize);
+    return el;
   }
 
 }
@@ -31,6 +35,12 @@ export class Text extends Element {
 export interface TextDefinition extends ElementDefinition {
 
   /** Text value */
-  text?: string
+  text?: string;
+
+  /** Size of the font */
+  fontSize?: string;
+
+  /** Font family */
+  fontFamily?: string;
 
 }

@@ -44,7 +44,8 @@ export class Parser {
           const attrValue = Parser.clean(stack.pop());
           const attrName = Parser.clean(stack.pop());
           const obj = stack[stack.length - 1];
-          obj[attrName] = attrValue;
+          // @ts-ignore
+          obj[attrName] = isFinite(attrValue) ? parseFloat(attrValue) : attrValue;
           if (ch == ",") { // Start processing the next attribute name
             type = "object.attr.name";
             stack.push("");

@@ -1,3 +1,5 @@
+import { Element } from "../../elements/Element";
+
 /**
  * A SVG image element
  */
@@ -7,7 +9,7 @@ export class SVGElement {
   private attributes: { [key: string]: string | number };
 
   /** Element children */
-  private children: (SVGElement | string)[];
+  protected children: (SVGElement | string)[];
 
   /** Element parent */
   private parent?: SVGElement;
@@ -16,13 +18,13 @@ export class SVGElement {
    * Create an SVG element.
    * @param name Element name
    */
-  constructor(private name: string = "") {
+  constructor(public element: Element | undefined, protected name: string = "") {
     this.attributes = {};
     this.children = [];
   }
 
   /**
-   * Add an attribute to the element.
+   * Set an attribute.
    * @param name Attribute name
    * @param value Attribute value
    * @returns this
