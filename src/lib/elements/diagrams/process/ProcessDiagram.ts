@@ -1,19 +1,18 @@
 import { ElementDefinition } from "../../../parser/ElementDefinition";
-import { SVGElement } from "../../../processor/svg/SVGElement";
 import { Builder } from "../../Builder";
-import { Container } from "../../Container";
 import { ContainerLayout } from "../../layouts/ContainerLayout";
 import { StackLayout } from "../../layouts/StackLayout";
 import { Arrow } from "../../shapes/Arrow";
 import { Rectangle } from "../../shapes/Rectangle";
 import { Text } from "../../shapes/Text";
+import { Diagram } from "../Diagram";
 
 /**
  * Illustrate steps or stages in a process or workflow, such as sequential steps
  * for completing a task, general phases in the development of a product, or a
  * timeline or schedule.
  */
-export class ProcessDiagram extends Container {
+export class ProcessDiagram extends Diagram {
 
   /**
    * Create a process.
@@ -39,13 +38,6 @@ export class ProcessDiagram extends Container {
       }
     }
     this.add(stack);
-  }
-
-  /** @inheritdoc */
-  toSVG(): SVGElement {
-    this.children[0].x = this.x;
-    this.children[0].y = this.y;
-    return this.children[0].toSVG();
   }
 
 }

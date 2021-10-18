@@ -34,25 +34,19 @@ export class StackLayout extends Container {
   /** @inheritdoc */
   public get width(): number {
     if (this.orientation == "horizontal") {
-      return (this.children.length - 1) * this.gap
+      return this.def.width ?? (this.children.length - 1) * this.gap
         + this.children.reduce((sum, c) => sum + c.width, 0);
     } // this.orientation == "vertical"
-    return this.children.reduce((max, c) => {
-      const width = c.width;
-      return width > max ? width : max;
-    }, 0);
+    return this.computeWidth();
   }
 
   /** @inheritdoc */
   public get height(): number {
     if (this.orientation == "vertical") {
-      return (this.children.length - 1) * this.gap
+      return this.def.height ?? (this.children.length - 1) * this.gap
         + this.children.reduce((sum, c) => sum + c.height, 0);
     } // this.orientation == "horizontal"
-    return this.children.reduce((max, c) => {
-      const height = c.height;
-      return height > max ? height : max;
-    }, 0);
+    return this.computeHeight();
   }
 
   /** @inheritdoc */

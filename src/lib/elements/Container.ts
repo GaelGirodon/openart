@@ -23,6 +23,14 @@ export abstract class Container extends Element {
 
   /** @inheritdoc */
   public get width(): number {
+    return this.computeWidth();
+  }
+
+  /**
+   * Compute the container width.
+   * @returns Container width
+   */
+  protected computeWidth(): number {
     return this.def.width ?? this.children.reduce((max, c) => {
       const width = c.width;
       return width > max ? width : max;
@@ -31,6 +39,14 @@ export abstract class Container extends Element {
 
   /** @inheritdoc */
   public get height(): number {
+    return this.computeHeight();
+  }
+
+  /**
+   * Compute the container height.
+   * @returns Container height
+   */
+  protected computeHeight(): number {
     return this.def.height ?? this.children.reduce((max, c) => {
       const height = c.height;
       return height > max ? height : max;

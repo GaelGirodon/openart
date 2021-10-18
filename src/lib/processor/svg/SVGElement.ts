@@ -6,7 +6,7 @@ import { Element } from "../../elements/Element";
 export class SVGElement {
 
   /** Element attributes */
-  private attributes: { [key: string]: string | number };
+  private readonly attributes: { [key: string]: string | number };
 
   /** Element children */
   protected children: (SVGElement | string)[];
@@ -16,6 +16,7 @@ export class SVGElement {
 
   /**
    * Create an SVG element.
+   * @param element Source diagram element
    * @param name Element name
    */
   constructor(public element: Element | undefined, protected name: string = "") {

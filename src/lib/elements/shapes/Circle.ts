@@ -27,14 +27,13 @@ export class Circle extends Element {
 
   /** @inheritdoc */
   toSVG(): SVGElement {
-    const element = new SVGElement(this, "circle")
+    return new SVGElement(this, "circle")
       .attr("cx", (this.x || 0) + (this.def?.radius || 0))
       .attr("cy", (this.y || 0) + (this.def?.radius || 0))
       .attr("r", this.def?.radius || 0)
       .attr("fill", "#fff")
       .attr("stroke", "#000")
       .attr("stroke-width", 2);
-    return element;
   }
 
 }

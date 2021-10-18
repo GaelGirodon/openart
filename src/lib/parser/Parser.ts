@@ -57,7 +57,7 @@ export class Parser {
         }
       } else if (type == "object.children") { // Processing the object children
         if (ch.match(/\s/)) {
-          continue;
+          // continue;
         } else if (ch == "}") { // Stop processing the object children, move one level up
           const obj = stack.pop();
           stack[stack.length - 1].children.push(obj);

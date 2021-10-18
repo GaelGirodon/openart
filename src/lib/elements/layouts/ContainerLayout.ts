@@ -23,38 +23,31 @@ export class ContainerLayout extends Container {
   public get padding(): { top: number, right: number, bottom: number, left: number } {
     if (this.def.padding && /^([0-9]+,){0,3}[0-9]+$/.test(this.def.padding.toString())) {
       const v = this.def.padding.toString().split(",").map(v => parseInt(v));
-      if (v.length == 1) return { top: v[0], right: v[0], bottom: v[0], left: v[0] };
-      if (v.length == 2) return { top: v[0], right: v[1], bottom: v[0], left: v[1] };
-      if (v.length == 3) return { top: v[0], right: v[1], bottom: v[2], left: v[1] };
-      if (v.length == 4) return { top: v[0], right: v[1], bottom: v[2], left: v[3] };
+      const i = [[0, 0, 0, 0], [0, 1, 0, 1], [0, 1, 2, 1], [0, 1, 2, 3]][v.length - 1];
+      return { top: v[i[0]], right: v[i[1]], bottom: v[i[2]], left: v[i[3]] };
     }
     return { top: 0, right: 0, bottom: 0, left: 0 };
   }
 
   /** @inheritdoc */
   public get width(): number {
-    return this.def.width ?? this.children.reduce((max, c) => {
-      const width = c.width;
-      return width > max ? width : max;
-    }, 0) + this.padding.left + this.padding.right;
+    return this.computeWidth() + this.padding.left + this.padding.right;
   }
 
   /** @inheritdoc */
   public get height(): number {
-    return this.def.height ?? this.children.reduce((max, c) => {
-      const height = c.height;
-      return height > max ? height : max;
-    }, 0) + this.padding.top + this.padding.bottom;
+    return this.computeHeight() + this.padding.top + this.padding.bottom;
   }
 
   /** @inheritdoc */
   toSVG(): SVGElement {
-    for (const el of this.children) {
-      el.x += this.x + this.padding.left;
-      el.y += this.y + this.padding.top;
+    const group = new SVGElement(this);
+    for (const c of this.children) {
+      c.x += this.x + this.padding.left;
+      c.y += this.y + this.padding.top;
+      group.add(c.toSVG());
     }
-    return this.children.reduce((group, c) => group.add(c.toSVG()),
-      new SVGElement(this));
+    return group;
   }
 
 }
