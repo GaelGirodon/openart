@@ -5,6 +5,7 @@ import { StackLayout } from "../../layouts/StackLayout";
 import { Arrow } from "../../shapes/Arrow";
 import { Rectangle } from "../../shapes/Rectangle";
 import { Text } from "../../shapes/Text";
+import { Style, StyleDefinition } from "../../style/Style";
 import { Diagram } from "../Diagram";
 
 /**
@@ -19,25 +20,34 @@ export class ProcessDiagram extends Diagram {
    * @param def Process definition
    * @param builder Diagram element builder
    */
-  constructor(def: ElementDefinition, builder: Builder) {
+  constructor(def: ProcessDiagramDefinition, builder: Builder) {
     super(Object.assign({}, def, { children: [] }), builder);
     if (!def.children?.length) {
       throw new Error("No steps defined");
     }
     const orientation = def.orientation || "horizontal";
     const h = orientation === "horizontal";
+    const colors = new Style(def).palette(def.children.length);
     const stack = new StackLayout({ orientation, gap: 12 }, builder);
-    for (const child of def.children) {
+    for (let i = 0; i < def.children.length; i++) {
+      const child = def.children[i];
       stack.add(new ContainerLayout({ width: 150, height: 80 }, builder)
-        .add(new Rectangle({ width: 150, height: 80 }))
-        .add(new Text({ text: child.name, width: 150, height: 80, x: 75, y: 40 }))
+        .add(new Rectangle({ width: 150, height: 80, fill: colors[i].hex() }))
+        .add(new Text({ text: child.name, width: 150, height: 80, x: 75, y: 40, fill: colors[i].foreground().hex() }))
       );
-      if (def.children.indexOf(child) !== def.children.length - 1) {
+      if (i < def.children.length - 1) {
         stack.add(new ContainerLayout({ width: h ? 24 : 80, height: h ? 80 : 24 }, builder)
           .add(new Arrow({ width: 24, height: 24, x: h ? 0 : 63, y: h ? 28 : 0, angle: h ? 0 : 90 })));
       }
     }
     this.add(stack);
   }
+
+}
+
+/**
+ * Process diagram definition
+ */
+export interface ProcessDiagramDefinition extends ElementDefinition, StyleDefinition {
 
 }

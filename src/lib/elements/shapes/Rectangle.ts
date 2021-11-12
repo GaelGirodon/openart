@@ -13,8 +13,8 @@ export class Rectangle extends Element {
       .attr("y", (this.y || 0) + 1)
       .attr("width", (this.width || 0) - 2)
       .attr("height", (this.height || 0) - 2)
-      .attr("rx", 1)
-      .attr("fill", "#fff")
+      .attr("rx", 4)
+      .attr("fill", this.def.fill ?? "#fff")
       .attr("stroke", "#000")
       .attr("stroke-width", 2);
   }

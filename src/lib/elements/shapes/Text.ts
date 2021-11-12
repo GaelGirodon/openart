@@ -22,6 +22,7 @@ export class Text extends Element {
       .attr("y", this.y + 6)
       .attr("text-anchor", "middle")
       .attr("font-family", this.def.fontFamily || "Arial, sans-serif")
+      .attr("fill", this.def.fill ?? "#000")
       .add(this.def.text || "");
     if (this.def.fontSize) el.attr("font-size", this.def.fontSize);
     return el;
